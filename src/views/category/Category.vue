@@ -125,7 +125,7 @@
       })
 
       this.scroll.on('scroll',(position) => {
-        console.log(position);
+        // console.log(position);
         
       })
 
