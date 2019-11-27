@@ -4,7 +4,7 @@
       <div slot="center">购物街</div>
     </nav-bar>
 
-    <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">
+    <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll" :pull-up-load='true' @pullingUp="loadMore">
       <home-swiper :banners="banners" />
       <recommend-view :recommends="recommends" />
       <feature-view />
@@ -29,6 +29,7 @@ import Scroll from "components/common/scroll/Scroll";
 import BackTop from "components/content/backTop/BackTop";
 
 import { getHomeMultidata, getHomeGoods } from "network/home";
+import { debounce } from "common/utils.js";
 
 export default {
   name: "Home",
@@ -63,11 +64,25 @@ export default {
   },
   created() {
     //1.请求多个数据
-    this.getHomeMultidata();
+    getHomeMultidata().then(res => {
+      console.log(res);
+      this.banners = res.data.banner.list;
+      this.recommends = res.data.recommend.list;
+    })
     //2.请求商品数据
     this.getHomeGoods("pop");
     this.getHomeGoods("new");
     this.getHomeGoods("sell");
+  },
+  mounted() {
+    
+    const refresh = debounce(this.$refs.scroll.refresh, 200)
+
+    //监听item中图片加载完成
+    this.$bus.$on('itemImageLoad', () => {
+      refresh()
+    })
+
   },
   methods: {
     //以下是事件监听相关的方法
@@ -94,6 +109,16 @@ export default {
       this.isShowBackTop =  (-position.y) > 10
     },
 
+    loadMore() {
+      this.getHomeGoods(this.currentType)
+
+      // this.$refs.scroll.scroll.refresh()
+    },
+
+    
+
+
+
 
     // 以下网络请求相关的方法
     getHomeMultidata() {
@@ -109,6 +134,8 @@ export default {
       getHomeGoods(type, page).then(res => {
         this.goods[type].list.push(...res.data.list);
         this.goods[type].page += 1;
+
+        this.$refs.scroll.finishedPullUp()
       });
     }
   }
