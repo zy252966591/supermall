@@ -110,6 +110,9 @@ import { log } from 'util'
       },
       scrollTo(x, y, time=100) {
         this.scroll && this.scroll.scrollTo && this.scroll.scrollTo(x, y, time)
+      },
+      getScrollY() {
+        return this.scroll ? this.scroll.y : 0
       }
     },
     watch: {
