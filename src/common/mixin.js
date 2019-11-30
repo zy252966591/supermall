@@ -1,6 +1,7 @@
 import {TOP_DISTANCE} from "./const";
 import BackTop from 'components/content/backTop/BackTop'
 import {POP, NEW, SELL} from "./const";
+import {debounce} from "./utils"
 
 export const backTopMixin = {
 	components: {
@@ -40,4 +41,21 @@ export const tabControlMixin = {
 			console.log(this.currentType);
 		}
 	}
+}
+
+export const itemListenerMixin = {
+	data() {
+		return {
+			ItemImgListener: null
+		}
+	},
+	mounted() {
+		let newRefresh = debounce(this.$refs.scroll.refresh, 50)
+	
+		this.itemImgListener = () => {
+		  newRefresh()
+		}
+	
+		this.$bus.$on('itemImgLoad', this.itemImgListener )
+	  },
 }

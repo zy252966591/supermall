@@ -102,7 +102,7 @@ import { log } from 'util'
         }
       },
       refresh() {
-        // console.log('--------')
+       
         this.scroll && this.scroll.refresh && this.scroll.refresh()
       },
       finishedPullUp() {
