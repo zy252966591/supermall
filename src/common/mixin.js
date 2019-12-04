@@ -1,7 +1,7 @@
 import {TOP_DISTANCE} from "./const";
 import BackTop from 'components/content/backTop/BackTop'
 import {POP, NEW, SELL} from "./const";
-import {debounce} from "./utils"
+import {debouce} from "./utils"
 
 export const backTopMixin = {
 	components: {
@@ -9,11 +9,11 @@ export const backTopMixin = {
 	},
 	data() {
 		return {
-			showBackTop: false
+			isShowBackTop: false
 		}
 	},
 	methods: {
-		backTop() {
+		backClick() {
 			this.$refs.scroll.scrollTo(0, 0, 1000)
 		}
 	}
@@ -38,7 +38,7 @@ export const tabControlMixin = {
 					this.currentType = SELL
 					break
 			}
-			console.log(this.currentType);
+			// console.log(this.currentType);
 		}
 	}
 }
@@ -46,14 +46,15 @@ export const tabControlMixin = {
 export const itemListenerMixin = {
 	data() {
 		return {
-			ItemImgListener: null
+			ItemImgListener: null,
+			newRefresh: null
 		}
 	},
 	mounted() {
-		let newRefresh = debounce(this.$refs.scroll.refresh, 50)
+		this.newRefresh = debouce(this.$refs.scroll.refresh, 100)
 	
 		this.itemImgListener = () => {
-		  newRefresh()
+		  this.newRefresh()
 		}
 	
 		this.$bus.$on('itemImgLoad', this.itemImgListener )

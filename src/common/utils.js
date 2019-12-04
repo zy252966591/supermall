@@ -22,7 +22,7 @@ export function formatDate(date, fmt) {
     return ('00' + str).substr(str.length);
   };
   
-export  function debounce(func, delay) {
+export  function debouce(func, delay) {
     let timer = null
 
     return function (...args) {
