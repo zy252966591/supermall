@@ -36,11 +36,11 @@ export default {
     }
 
     .cart-list {
-        height: 100%;
+        height: (100% - 40px -40px);
     }
 
     .content {
-        height: calc(100% - 44px);
+        height: calc(100% - 44px );
         
     }
 </style>
