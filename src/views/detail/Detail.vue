@@ -35,6 +35,8 @@ import {debouce} from "common/utils";
 import {itemListenerMixin, backTopMixin} from "common/mixin";
 import { nextTick } from 'q';
 
+import { mapActions } from 'vuex'
+
 export default {
   name: "Detail",
   components: {
@@ -121,6 +123,8 @@ export default {
     this.$bus.$off('itemImgLoad', this.itemImgListener ) 
   },
   methods: {
+    ...mapActions(['addCart']),
+
     imageLoad() {
       this.newRefresh(); 
       this.getThemeTopY();
@@ -159,7 +163,13 @@ export default {
       //2.将商品加入购物车里面
       // this.$store.cartList.push(product)
       // this.$store.commit('addCart', product)
-      this.$store.dispatch('addCart', product)
+      this.addCart( product ).then(res => {
+        console.log(res);
+      })
+
+      // this.$store.dispatch('addCart', product).then(res => {
+      //   console.log(res);
+      // })
     }
   },
 };
