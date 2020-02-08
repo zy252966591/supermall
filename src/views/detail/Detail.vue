@@ -14,6 +14,8 @@
     </scroll>
     <detail-bottom-bar @addCart="addToCart"/>
     <back-top @click.native="backClick" v-show="isShowBackTop" />
+
+    <!-- <toast :message="message" :show="show"></toast> -->
   </div>
 </template>
  
@@ -29,13 +31,15 @@ import DetailBottomBar from "./childComps/DetailBottomBar";
 
 import Scroll from "components/common/scroll/Scroll";
 import GoodsList from "components/content/goods/GoodsList";
+// import Toast from 'components/common/toast/Toast';
 
 import { getDetail, Goods, Shop ,GoodsParam, getRecommend} from "network/detail";
 import {debouce} from "common/utils";
 import {itemListenerMixin, backTopMixin} from "common/mixin";
 import { nextTick } from 'q';
 
-import { mapActions } from 'vuex'
+import { mapActions } from 'vuex';
+
 
 export default {
   name: "Detail",
@@ -51,6 +55,8 @@ export default {
 
     Scroll,
     GoodsList,
+
+    // Toast
   },
   mixins:[itemListenerMixin,backTopMixin],
   data() {
@@ -67,6 +73,8 @@ export default {
       themeTopYs: [],
       getThemeTopY: null,
       currentIndex: 0,
+      // message: "",
+      // show: false,
     };
   },
   created() {
@@ -164,12 +172,22 @@ export default {
       // this.$store.cartList.push(product)
       // this.$store.commit('addCart', product)
       this.addCart( product ).then(res => {
-        console.log(res);
+        // this.show = true;
+        // this.message = res;
+
+        // setTimeout(() => {
+        //   this.show = false;
+        //   this.message = '';
+        // }, 1500);
+        // console.log(res);
+
+        console.log(this.$toast);
+        this.$toast.show(res, 1500);
+
+        
       })
 
-      // this.$store.dispatch('addCart', product).then(res => {
-      //   console.log(res);
-      // })
+      
     }
   },
 };

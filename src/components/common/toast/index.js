@@ -1,43 +1,80 @@
 import Toast from './Toast'
 
-const plugin = {}
+const obj = {}
 
-function removeDom(event) {
-	if (event.target.parentNode) {
-		event.target.parentNode.removeChild(event.target)
-	}
+obj.install = function (Vue) {	
+	// Vue.extend(trn)
+	// document.body.appendChild(Toast.$el)
+
+	//1.创建组件构造器
+	const toastContrustor = Vue.extend(Toast)
+
+	//2.new的方式，根据组件构造器， 可以创建出来一个组件对象
+	const toast = new toastContrustor()
+
+	//3.将组件对象 手动挂载到某一个元素上
+	toast.$mount(document.createElement('div'))
+
+	//4.toast.$el对应的就是div
+	document.body.appendChild(toast.$el)
+
+	Vue.prototype.$toast = toast;
 }
 
-plugin.install = (Vue) => {
-	const ToastConstructor = Vue.extend(Toast)
+export default obj
 
-	// 注意:这里不能用箭头函数
-	ToastConstructor.prototype.close = function() {
-		this.isShow = false
-		this.$el.addEventListener('transitionend', removeDom)
-	}
 
-	Vue.prototype.$toast = (options={}) => {
-		// 1.将创建出来的组件,挂载到某个div中
-		const toast = new ToastConstructor()
-		toast.$mount(document.createElement('div'))
 
-		// 2.将toast的$el添加到body中
-		document.body.appendChild(toast.$el)
 
-		// 3.获取用户自定义数据
-		const duration = options.duration || 2500
-		toast.message = options.message
-		toast.isShow = true
 
-		// 4.定时器让toast消失
-		setTimeout(() => {
-			toast.close()
-		}, duration)
-	}
-}
 
-export default plugin
+
+
+
+
+
+
+
+// import Toast from './Toast'
+
+// const plugin = {}
+
+// function removeDom(event) {
+// 	if (event.target.parentNode) {
+// 		event.target.parentNode.removeChild(event.target)
+// 	}
+// }
+
+// plugin.install = (Vue) => {
+// 	const ToastConstructor = Vue.extend(Toast)
+
+// 	// 注意:这里不能用箭头函数
+// 	ToastConstructor.prototype.close = function() {
+// 		this.isShow = false
+// 		this.$el.addEventListener('transitionend', removeDom)
+// 	}
+
+// 	Vue.prototype.$toast = (options={}) => {
+// 		// 1.将创建出来的组件,挂载到某个div中
+// 		const toast = new ToastConstructor()
+// 		toast.$mount(document.createElement('div'))
+
+// 		// 2.将toast的$el添加到body中
+// 		document.body.appendChild(toast.$el)
+
+// 		// 3.获取用户自定义数据
+// 		const duration = options.duration || 2500
+// 		toast.message = options.message
+// 		toast.isShow = true
+
+// 		// 4.定时器让toast消失
+// 		setTimeout(() => {
+// 			toast.close()
+// 		}, duration)
+// 	}
+// }
+
+// export default plugin
 
 
 
