@@ -3,6 +3,8 @@ import BackTop from 'components/content/backTop/BackTop'
 import {POP, NEW, SELL} from "./const";
 import {debouce} from "./utils"
 
+
+
 export const backTopMixin = {
 	components: {
 		BackTop

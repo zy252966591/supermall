@@ -181,7 +181,7 @@ export default {
         // }, 1500);
         // console.log(res);
 
-        console.log(this.$toast);
+        
         this.$toast.show(res, 1500);
 
         
